@@ -18,13 +18,9 @@ class java {
 }
 
 class java::base {
-    package{'java':
+    package{ ['java-1.6.0-sun', 
+        'java-1.6.0-sun-devel', 
+        'java-1.6.0-sun-fonts' ]:
         ensure => present,
-    }
-    service{java:
-        ensure => running,
-        enable => true,
-        hasstatus => true,
-        require => Package[java],
     }
 }
