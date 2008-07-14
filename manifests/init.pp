@@ -23,4 +23,11 @@ class java::base {
         'java-1.6.0-sun-fonts' ]:
         ensure => present,
     }
+
+    file{'/etc/profile.d/java.sh':
+        source => [ "puppet://$server/files/java/profile.d/${fqdn}/java.sh",
+                    "puppet://$server/files/java/profile.d/java.sh",
+                    "puppet://$server/java/profile.d/java.sh" ],
+        owner => root, group => 0, mode => 0644;
+    }
 }
