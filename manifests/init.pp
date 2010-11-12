@@ -1,9 +1,10 @@
 #
 # java module
 #
-# Copyright 2008, Puzzle ITC
+# Copyright 2008, Puzzle ITC GmbH
+# Copyright 2010, Atizo AG
 # Marcel Härry haerry+puppet(at)puzzle.ch
-# Simon Josi josi+puppet(at)puzzle.ch
+# Simon Josi simon.josi+puppet(at)atizo.com
 #
 # This program is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU 
@@ -11,23 +12,16 @@
 # the Free Software Foundation.
 #
 
-# modules_dir { \"java\": }
-
-class java {
-    include java::base
-}
-
-class java::base {
-    package{ ['java-1.6.0-sun', 
-        'java-1.6.0-sun-devel', 
-        'java-1.6.0-sun-fonts' ]:
-        ensure => present,
+class java(
+  $jvm = undef
+){
+  case $jvm {
+    'sun': {
+      include java::sun
     }
-
-    file{'/etc/profile.d/java.sh':
-        source => [ "puppet://$server/files/java/profile.d/${fqdn}/java.sh",
-                    "puppet://$server/files/java/profile.d/java.sh",
-                    "puppet://$server/java/profile.d/java.sh" ],
-        owner => root, group => 0, mode => 0644;
+    'openjdk',default: {
+      include java::openjdk
     }
+  }
+  include java
 }
